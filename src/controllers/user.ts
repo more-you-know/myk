@@ -18,7 +18,7 @@ export let getLogin = (req: Request, res: Response) => {
   if (req.user) {
     return res.redirect("/");
   }
-  res.render("account/login", {
+  res.render("login", {
     title: "Login"
   });
 };
@@ -70,7 +70,7 @@ export let getSignup = (req: Request, res: Response) => {
   if (req.user) {
     return res.redirect("/");
   }
-  res.render("account/signup", {
+  res.render("signup", {
     title: "Create Account"
   });
 };
@@ -120,7 +120,7 @@ export let postSignup = (req: Request, res: Response, next: NextFunction) => {
  * Profile page.
  */
 export let getAccount = (req: Request, res: Response) => {
-  res.render("account/profile", {
+  res.render("profile", {
     title: "Account Management"
   });
 };
@@ -235,7 +235,7 @@ export let getReset = (req: Request, res: Response, next: NextFunction) => {
         req.flash("errors", { msg: "Password reset token is invalid or has expired." });
         return res.redirect("/forgot");
       }
-      res.render("account/reset", {
+      res.render("reset", {
         title: "Password Reset"
       });
     });
@@ -311,7 +311,7 @@ export let getForgot = (req: Request, res: Response) => {
   if (req.isAuthenticated()) {
     return res.redirect("/");
   }
-  res.render("account/forgot", {
+  res.render("forgot", {
     title: "Forgot Password"
   });
 };

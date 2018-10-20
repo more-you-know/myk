@@ -13,7 +13,9 @@ import passport from "passport";
 import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
-
+import * as exphbs from "express-handlebars";
+// import * as HandlebarsHelpers from "handlebars-helpers";
+const HandlebarsHelpers = require("handlebars-helpers");
 const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
@@ -32,6 +34,16 @@ import * as passportConfig from "./config/passport";
 // Create Express server
 const app = express();
 
+const hbs = exphbs.create({
+    defaultLayout: "main",
+    extname: ".hbs"
+});
+
+HandlebarsHelpers({
+    // @ts-ignore
+    handlebars: hbs.handlebars
+});
+
 // Connect to MongoDB
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
@@ -45,7 +57,10 @@ mongoose.connect(mongoUrl, {useMongoClient: true}).then(
 // Express configuration
 app.set("port", process.env.PORT || 3000);
 app.set("views", path.join(__dirname, "../views"));
-app.set("view engine", "pug");
+
+app.engine(".hbs", hbs.engine);
+app.set("view engine", ".hbs");
+
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
