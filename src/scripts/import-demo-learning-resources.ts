@@ -19,31 +19,6 @@ const data = [
         tags: ["Safe Sex", "state-california", "grade-5"]
     },
     {
-        name: "Where do you stand on sex quiz?",
-        url: "https://www.whereyoustandapp.org/",
-        tags: ["consent", "state-california", "grade-5"]
-    },
-    {
-        name: "What's your love personality quiz?",
-        url: "https://www.lovepersonalityapp.org/",
-        tags: ["relationships", "state-california", "grade-5"]
-    },
-    {
-        name: "How will you handle this situation quiz?",
-        url: "https://www.kickbackapp.org/",
-        tags: ["consent", "state-california", "grade-5"]
-    },
-    {
-        name: "What's your future plan Quiz",
-        url: "https://www.yourplanapp.org/",
-        tags: ["Safe Sex", "state-california", "grade-5"]
-    },
-    {
-        name: "Where do you stand on sex quiz?",
-        url: "https://www.whereyoustandapp.org/",
-        tags: ["consent", "state-california", "grade-5"]
-    },
-    {
         name: "How to tell someone you have an STD",
         url: "https://www.youtube.com/embed/xxV7CiE2Bwc",
         tags: ["Safe Sex", "state-california", "grade-9"]
@@ -55,17 +30,17 @@ const data = [
     },
     {
         name: "Real Talk on STDS and Sex",
-        url: "https://www.beentheredonethatapp.org/",
+        url: "https://quizlet.com/72001431/match/embed",
         tags: ["Safe Sex", "state-california", "grade-9"]
     },
     {
         name: "Birth Control Quiz",
-        url: "https://www.mybirthcontrolapp.org/",
+        url: "https://quizlet.com/5450175/match/embed",
         tags: ["Relationships", "state-california", "grade-9"]
     },
     {
         name: "Relationship Quiz",
-        url: "https://www.takestwoapp.org/",
+        url: "https://quizlet.com/64231684/match/embed",
         tags: ["Relationships", "state-california", "grade-9"]
     },
     {
