@@ -4,6 +4,7 @@ import { Transporter } from "../config/mailer";
 import { PlatformConfig } from "../config/platform";
 import LearningResource from "../models/LearningResource";
 import User, { UserModel } from "../models/User";
+import * as mongoose from "mongoose";
 
 /**
  * POST /contact
@@ -101,6 +102,7 @@ export let getCreateRoom = async (req: Request, res: Response) => {
 export let getRoom = async (req: Request, res: Response) => {
     let room = await Room.findById(req.params.roomId).exec() as RoomModel;
     let role = "none";
+    let kidEmail = null;
     if (room.admin_id === req.user.id) {
         role = "admin";
     } else if (Object.keys(room.learners).indexOf(req.user.email) > -1) {
@@ -109,17 +111,54 @@ export let getRoom = async (req: Request, res: Response) => {
         Object.keys(room.learners).forEach(learnerEmail => {
             if (room.learners[learnerEmail].parent_emails.indexOf(req.user.id) > -1) {
                 role = "parent";
+                kidEmail = learnerEmail;
             }
         })
     }
 
     let admin = await User.findById(room.admin_id).exec() as UserModel;
 
-    return res.render("view-room", {
+    if (role === "none") {
+        return res.redirect("/rooms")
+    }
+
+    let resources = await LearningResource.find({
+        '_id': { $in: room.syllabus.map(item => mongoose.Types.ObjectId(item.resource_id)) }
+    });
+
+    let respData = {
         title: room.name,
         admin: admin.profile,
-        room
-    });
+        role
+    } as any;
+
+    if (role === "admin") {
+        respData.syllabus = room.syllabus.map(item => {
+            return Object.assign({resource: resources.find(resource => resource.id === item.resource_id)}, item)
+        });
+    } else if (role === "learner") {
+        let syllabus = [];
+        for (let item of room.syllabus) {
+            if (item.learners[req.user.email].allowed) {
+                syllabus.push({
+                    resource: resources.find(resource => resource.id === item.resource_id),
+                    viewed: item.learners[req.user.email].viewed
+                })
+            }
+        }
+        respData.syllabus = syllabus;
+    } else if (role === "parent") {
+        let syllabus = [];
+        for (let item of room.syllabus) {
+            syllabus.push({
+                resource: resources.find(resource => resource.id === item.resource_id),
+                allowed: item.learners[kidEmail].allowed
+            })
+        }
+        respData.syllabus = syllabus;
+    }
+
+    return res.render("view-room", respData);
 }
 
 export let getMyRooms = async (req: Request, res: Response) => {
