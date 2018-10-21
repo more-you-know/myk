@@ -19,8 +19,23 @@ export let postCreateRoom = async (req: Request, res: Response) => {
         return res.redirect("/rooms/create");
     }
 
-    let learners = JSON.parse(req.body.learners);
-    let syllabus = JSON.parse(req.body.syllabus);
+    let learners = JSON.parse(req.body.learners) as {[key: string]: {parent_emails: string[]}};
+    let syllabusInput = JSON.parse(req.body.syllabus) as string[];
+
+    let syllabus = [];
+    let initSyllabusLearners = {};
+    for (let learnerEmail of Object.keys(learners)) {
+        initSyllabusLearners[learnerEmail] = {
+            allowed: false,
+            viewed: false
+        }
+    }
+    for (let resId of syllabusInput) {
+        syllabus.push({
+            resource_id: resId,
+            learners: initSyllabusLearners
+        })
+    }
 
     const room = new Room({
         name: req.body.name,
@@ -50,7 +65,7 @@ export let postCreateRoom = async (req: Request, res: Response) => {
                 mailErrors.push({ msg: err.message })
             }
         });
-        for (let parentEmail of learners[learnerEmail]) {
+        for (let parentEmail of learners[learnerEmail].parent_emails) {
             const mailOptions = {
                 to: parentEmail,
                 from: `More You Know <no-reply@moreyouknow.co>`,
@@ -98,3 +113,11 @@ export let getMyRooms = async (req: Request, res: Response) => {
         myRooms
     })
 };
+
+export let joinRoomAsLearner = async (req: Request, res: Response) => {
+    let room = await Room.findById(req.params.roomId).exec() as RoomModel;
+    for (let learnerEmail of Object.keys(room.learners)) {
+
+    }
+    return res.redirect(`/rooms/${room.id}`);
+}
