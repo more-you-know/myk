@@ -2,6 +2,8 @@ import { Request, Response } from "express";
 import { default as Room, RoomModel } from "../models/Room";
 import { Transporter } from "../config/mailer";
 import { PlatformConfig } from "../config/platform";
+import LearningResource from "../models/LearningResource";
+import User, { UserModel } from "../models/User";
 
 /**
  * POST /contact
@@ -88,6 +90,38 @@ export let postCreateRoom = async (req: Request, res: Response) => {
     return res.redirect(`/rooms/${room.id}`);
 };
 
+export let getCreateRoom = async (req: Request, res: Response) => {
+    let learningResources = await LearningResource.find({}).exec();
+    return res.render("create-room", {
+        title: "Create Room",
+        resources: learningResources
+    })
+};
+
+export let getRoom = async (req: Request, res: Response) => {
+    let room = await Room.findById(req.params.roomId).exec() as RoomModel;
+    let role = "none";
+    if (room.admin_id === req.user.id) {
+        role = "admin";
+    } else if (Object.keys(room.learners).indexOf(req.user.email) > -1) {
+        role = "learner";
+    } else {
+        Object.keys(room.learners).forEach(learnerEmail => {
+            if (room.learners[learnerEmail].parent_emails.indexOf(req.user.id) > -1) {
+                role = "parent";
+            }
+        })
+    }
+
+    let admin = await User.findById(room.admin_id).exec() as UserModel;
+
+    return res.render("view-room", {
+        title: room.name,
+        admin: admin.profile,
+        room
+    });
+}
+
 export let getMyRooms = async (req: Request, res: Response) => {
     let allRooms = await Room.find({}).exec() as RoomModel[];
     let myRooms = allRooms.filter(room => {
@@ -113,11 +147,3 @@ export let getMyRooms = async (req: Request, res: Response) => {
         myRooms
     })
 };
-
-export let joinRoomAsLearner = async (req: Request, res: Response) => {
-    let room = await Room.findById(req.params.roomId).exec() as RoomModel;
-    for (let learnerEmail of Object.keys(room.learners)) {
-
-    }
-    return res.redirect(`/rooms/${room.id}`);
-}

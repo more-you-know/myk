@@ -19,7 +19,7 @@ const HandlebarsHelpers = require("handlebars-helpers");
 const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
-dotenv.config({ path: ".env.example" });
+dotenv.config({ path: ".env" });
 
 // Controllers (route handlers)
 import * as homeController from "./controllers/home";
@@ -119,12 +119,10 @@ app.post("/signup", userController.postSignup);
 app.get("/contact", contactController.getContact);
 app.post("/contact", contactController.postContact);
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
-/* ROOM */
 app.post("/rooms/create", passportConfig.isAuthenticated, roomsController.postCreateRoom);
-app.get("/rooms/create", passportConfig.isAuthenticated, roomsController.getCreateRoom);
-app.post("/rooms", passportConfig.isAuthenticated, roomsController.getMyRooms);
+app.post("/rooms/create", passportConfig.isAuthenticated, roomsController.getCreateRoom);
 app.get("/rooms", passportConfig.isAuthenticated, roomsController.getMyRooms);
-
+app.get("/rooms/:roomId", passportConfig.isAuthenticated, roomsController.getRoom);
 app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
