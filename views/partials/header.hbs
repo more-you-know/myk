@@ -1,23 +1,25 @@
-<div class="navbar navbar-default navbar-fixed-top">
+<div style="color: white; background: rgb(22, 47, 76);" class="navbar navbar-default navbar-fixed-top">
   <div class="container">
-    <div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand"><i class="fa fa-cube"></i>Project name</a></div>
+    <div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a style="color: hotpink;" href="/" class="navbar-brand"><i class="fa fa-cube"></i>MoreYouKnow.co</a></div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="{{#eq title 'Home'}}active{{/eq}}"><a href="/">Home</a></li>
-        <li class="{{#eq title 'API Examples'}}active{{/eq}}"><a href="/api">API Examples</a></li>
-        <li class="{{#eq title 'Contact'}}active{{/eq}}"><a href="/contact">Contact</a></li>
+        <li class="{{#eq title 'Rooms'}}active{{/eq}}"><a style="color: white;" href="/rooms">Classrooms</a></li>
+        <li class="{{#eq title 'Contact'}}active{{/eq}}"><a style="color: white;" href="/contact">Help</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">{{#if user}}
-    <li class="dropdown {{#eq title 'Account Management'}}active{{/eq}}"><a href="#" data-toggle="dropdown" class="dropdown-toggle">{{#if user.profile.picture}}
-        <img src="{{user.profile.picture}}" alt="{{user.profile.name}}">
-    {{else}}
-        <img src="{{user.gravatar}}" alt="{{user.profile.name}}">{{/if}}<span>{{user.profile.name}}</span><i class="caret"></i></a>
-        <ul class="dropdown-menu">
-            <li><a href="/account">My Account</a></li>
-            <li class="divider"></li>
-            <li><a href="/logout">Logout</a></li>
-        </ul>
-    </li>{{/if}}
+      <ul class="nav navbar-nav navbar-right">
+          <a style="color: limegreen;" href="/" class="navbar-brand"><i class="fa fa-plus"></i>New Classroom</a>
+          {{#if user}}
+            <li class="dropdown {{#eq title 'Account Management'}}active{{/eq}}"><a style="color: white;" href="#" data-toggle="dropdown" class="dropdown-toggle">{{#if user.profile.picture}}
+                <img src="{{user.profile.picture}}" alt="{{user.profile.name}}">
+            {{else}}
+                <img src="{{user.gravatar}}" alt="{{user.profile.name}}">{{/if}}<span >{{user.profile.name}}</span><i class="caret"></i></a>
+                <ul class="dropdown-menu">
+                    <li><a href="/account">My Account</a></li>
+                    <li class="divider"></li>
+                    <li><a href="/logout">Logout</a></li>
+                </ul>
+            </li>
+          {{/if}}
       </ul>
     </div>
   </div>

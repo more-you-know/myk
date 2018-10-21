@@ -120,7 +120,7 @@ app.get("/contact", contactController.getContact);
 app.post("/contact", contactController.postContact);
 app.get("/account", passportConfig.isAuthenticated, userController.getAccount);
 app.post("/rooms/create", passportConfig.isAuthenticated, roomsController.postCreateRoom);
-app.post("/rooms/create", passportConfig.isAuthenticated, roomsController.getCreateRoom);
+app.get("/rooms/create", passportConfig.isAuthenticated, roomsController.getCreateRoom);
 app.get("/rooms", passportConfig.isAuthenticated, roomsController.getMyRooms);
 app.get("/rooms/:roomId", passportConfig.isAuthenticated, roomsController.getRoom);
 app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
