@@ -10,12 +10,12 @@ dotenv.config({ path: ".env" });
 const data = [
     {
         name: "How to Tell if Someone wants to have sex with you.",
-        url: "https://www.youtube.com/watch?v=qNN3nAevQKY",
+        url: "https://www.youtube.com/embed/qNN3nAevQKY",
         tags: ["Consent", "state-california", "grade-5"]
     },
     {
         name: "Having Safer Sex",
-        url: "https://www.youtube.com/watch?v=GTFixZ2Ic9Q&feature=youtu.be",
+        url: "https://www.youtube.com/embed/GTFixZ2Ic9Q",
         tags: ["Safe Sex", "state-california", "grade-5"]
     },
     {
@@ -45,12 +45,12 @@ const data = [
     },
     {
         name: "How to tell someone you have an STD",
-        url: "https://www.youtube.com/watch?v=xxV7CiE2Bwc",
+        url: "https://www.youtube.com/embed/xxV7CiE2Bwc",
         tags: ["Safe Sex", "state-california", "grade-9"]
     },
     {
         name: "STD Screening",
-        url: "https://www.youtube.com/watch?v=tkVcpxOYhd8",
+        url: "https://www.youtube.com/embed/tkVcpxOYhd8",
         tags: ["Safe Sex", "state-california", "grade-9"]
     },
     {
@@ -76,7 +76,7 @@ const data = [
     {
         name: "Sexual Education Quiz",
         url: "https://quizlet.com/41152057/test/embed",
-        tags: ["consent", "state-california", "grade-9"]
+        tags: ["consent", "state-california", "grade-5"]
     }
 ] as LearningResourceModel[];
 
