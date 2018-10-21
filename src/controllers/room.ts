@@ -17,6 +17,9 @@ export let postCreateRoom = async (req: Request, res: Response) => {
         return res.redirect("/rooms/create");
     }
 
+    // TODO send out emails to learners
+    // TODO send out emails to parents
+
     const room = new Room({
         name: req.body.name,
         admin_id: req.user.id,
