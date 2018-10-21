@@ -221,7 +221,8 @@ export let getRoom = async (req: Request, res: Response) => {
         for (let item of room.syllabus) {
             syllabus.push({
                 resource: resources.find(resource => resource.id === item.resource_id),
-                blocked: item.learners[kidEmail].blocked
+                blocked: item.learners[kidEmail].blocked,
+                viewed: item.learners[kidEmail].viewed
             })
         }
         respData.syllabus = syllabus;
@@ -279,7 +280,12 @@ export let markContentViewed = async(req: Request, res: Response) => {
     let syllabusItemIdx = room.syllabus.findIndex(item => item.resource_id === req.params.resourceId);
     if (!room.syllabus[syllabusItemIdx].learners[base64(req.user.email)].blocked) {
         room.syllabus[syllabusItemIdx].learners[base64(req.user.email)].viewed = true;
+        // @ts-ignore
+        room.markModified(`syllabus.${syllabusItemIdx}.learners.${base64(req.user.email)}.viewed`);
         await room.save();
+        console.log(room);
+        console.log(room.syllabus[syllabusItemIdx].learners);
+        console.log("saved");
     }
     return res.status(200).send();
 };
