@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 export type RoomModel = mongoose.Document & {
     name: string
     admin_id: string
+    open_for_learners: boolean
+    standard: string
     learners: {[email: string]: {
             parent_emails: string[]
         }
@@ -10,7 +12,7 @@ export type RoomModel = mongoose.Document & {
     syllabus: {
         resource_id: string
         learners: {[email: string]: {
-                allowed: boolean
+                blocked: boolean
                 viewed: boolean
             }
         }
@@ -20,6 +22,8 @@ export type RoomModel = mongoose.Document & {
 const roomSchema = new mongoose.Schema({
     name: String,
     admin_id: String,
+    standard: String,
+    open_for_learners: Boolean,
     learners: mongoose.Schema.Types.Mixed,
     syllabus: mongoose.Schema.Types.Mixed
 }, { timestamps: true });

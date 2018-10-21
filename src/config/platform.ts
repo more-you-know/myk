@@ -1,4 +1,4 @@
 export const PlatformConfig = {
-    name: "More You Know",
-    url: "http://localhost:3000"
+    name: "MoreYouKnow.co",
+    url: process.env.PLATFORM_URL || "http://localhost:3000"
 };

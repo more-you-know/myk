@@ -9,19 +9,74 @@ dotenv.config({ path: ".env" });
 
 const data = [
     {
-        name: "Hello Demo 1",
-        url: "https://github.com/",
-        tags: ["demo-subject", "state-california", "grade-5"]
+        name: "How to Tell if Someone wants to have sex with you.",
+        url: "https://www.youtube.com/watch?v=qNN3nAevQKY",
+        tags: ["Consent", "state-california", "grade-5"]
     },
     {
-        name: "Hello Demo 2",
-        url: "https://github.com/",
-        tags: ["demo-topic", "state-new-york", "grade-9"]
+        name: "Having Safer Sex",
+        url: "https://www.youtube.com/watch?v=GTFixZ2Ic9Q&feature=youtu.be",
+        tags: ["Safe Sex", "state-california", "grade-5"]
     },
     {
-        name: "Hello Demo 2",
-        url: "https://github.com/",
-        tags: ["demo-thing", "state-california", "grade-9"]
+        name: "Where do you stand on sex quiz?",
+        url: "https://www.whereyoustandapp.org/",
+        tags: ["consent", "state-california", "grade-5"]
+    },
+    {
+        name: "What's your love personality quiz?",
+        url: "https://www.lovepersonalityapp.org/",
+        tags: ["relationships", "state-california", "grade-5"]
+    },
+    {
+        name: "How will you handle this situation quiz?",
+        url: "https://www.kickbackapp.org/",
+        tags: ["consent", "state-california", "grade-5"]
+    },
+    {
+        name: "What's your future plan Quiz",
+        url: "https://www.yourplanapp.org/",
+        tags: ["Safe Sex", "state-california", "grade-5"]
+    },
+    {
+        name: "Where do you stand on sex quiz?",
+        url: "https://www.whereyoustandapp.org/",
+        tags: ["consent", "state-california", "grade-5"]
+    },
+    {
+        name: "How to tell someone you have an STD",
+        url: "https://www.youtube.com/watch?v=xxV7CiE2Bwc",
+        tags: ["Safe Sex", "state-california", "grade-9"]
+    },
+    {
+        name: "STD Screening",
+        url: "https://www.youtube.com/watch?v=tkVcpxOYhd8",
+        tags: ["Safe Sex", "state-california", "grade-9"]
+    },
+    {
+        name: "Real Talk on STDS and Sex",
+        url: "https://www.beentheredonethatapp.org/",
+        tags: ["Safe Sex", "state-california", "grade-9"]
+    },
+    {
+        name: "Birth Control Quiz",
+        url: "https://www.mybirthcontrolapp.org/",
+        tags: ["Relationships", "state-california", "grade-9"]
+    },
+    {
+        name: "Relationship Quiz",
+        url: "https://www.takestwoapp.org/",
+        tags: ["Relationships", "state-california", "grade-9"]
+    },
+    {
+        name: "Safe Sexual Education Quiz",
+        url: "https://quizlet.com/42707794/test/embed",
+        tags: ["Relationships", "state-california", "grade-5"]
+    },
+    {
+        name: "Sexual Education Quiz",
+        url: "https://quizlet.com/41152057/test/embed",
+        tags: ["consent", "state-california", "grade-9"]
     }
 ] as LearningResourceModel[];
 

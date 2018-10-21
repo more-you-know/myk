@@ -1,6 +1,7 @@
-
+<h1>My Classrooms</h1>
+<br />
 {{#each myRooms}}
-    {{name}}
+    <a href="/rooms/{{id}}">{{name}}</a>
 {{else}}
-    Foobar
+    You don't have access to any classrooms yet. <a href="/rooms/create">Create one</a> to get started!
 {{/each}}

@@ -7,7 +7,7 @@
         <li class="{{#eq title 'Contact'}}active{{/eq}}"><a style="color: white;" href="/contact">Help</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <a style="color: limegreen;" href="/" class="navbar-brand"><i class="fa fa-plus"></i>New Classroom</a>
+          <a style="color: limegreen;" href="/rooms/create" class="navbar-brand"><i class="fa fa-plus"></i>New Classroom</a>
           {{#if user}}
             <li class="dropdown {{#eq title 'Account Management'}}active{{/eq}}"><a style="color: white;" href="#" data-toggle="dropdown" class="dropdown-toggle">{{#if user.profile.picture}}
                 <img src="{{user.profile.picture}}" alt="{{user.profile.name}}">

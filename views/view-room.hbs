@@ -1,3 +1,4 @@
+<!--
 # navbar: home, new room, view students, view rooms
 
 Room name
@@ -12,3 +13,93 @@ Room name
 # list of students in room (sidebar?)
 > view student/parent info
 
+-->
+
+<div class="container">
+    <h1>
+        {{name}}
+    </h1>
+    <p>
+        <strong>Instructor:</strong> {{admin.name}}, <strong>Curriculum:</strong> {{standard}}
+    </p>
+    {{#eq role "admin"}}
+        {{#if open_for_learners}}
+            <h4><span class="fa fa-check"></span> Open To Learners</h4>
+        {{else}}
+            <form method="post" action="/rooms/{{{id}}}/open-for-learners">
+                <button class="btn btn-success" type="submit"><span class="fa fa-check"></span> Open To Learners</button>
+            </form>
+            <br />
+        {{/if}}
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <tr>
+                    <th>
+                        Student
+                    </th>
+                    {{#each syllabus}}
+                        <th>
+                            <a href="#!" data-toggle="modal" data-target="#modal-resource-{{{resource.id}}}">{{resource.name}}</a>
+                        </th>
+                    {{/each}}
+                </tr>
+                {{#each learners}}
+                    <tr>
+                        <td>
+                            {{email}}
+                        </td>
+                        {{#each progress}}
+                            <td>
+                                {{#if blocked}}
+                                    <span class="fa fa-circle"></span> Opt-out
+                                {{else}}
+                                    {{#if viewed}}
+                                        <span class="fa fa-check"></span> Done
+                                    {{else}}
+                                        <span class="fa fa-asterisk"></span> Incomplete
+                                    {{/if}}
+                                {{/if}}
+                            </td>
+                        {{/each}}
+                    </tr>
+                {{/each}}
+            </table>
+        </div>
+        <a href="/rooms/{{{id}}}/download-csv" target="_blank" class="btn btn-primary">Export Compliance Report (.csv)</a>
+    {{else}}
+
+    {{/eq}}
+
+
+    {{#each syllabus}}
+        <div id="modal-resource-{{{resource.id}}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Modal Header</h4>
+                    </div>
+                    <div class="modal-body">
+                        <iframe style="border: none;" height="500px" width="100" src="{{{resource.url}}}"></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="done-btn-resource-{{{resource.id}}}" type="button" class="btn btn-success" data-dismiss="modal"><span class="fa fa-check"></span> Done</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <script>
+            $(function() {
+                $("#done-btn-resource-{{{resource.id}}}").click(function() {
+                    $.ajax("/rooms/{{{../id}}}/learn/{{{resource.id}}}", {
+                        method: "POST"
+                    })
+                })
+            });
+        </script>
+    {{/each}}
+
+</div>

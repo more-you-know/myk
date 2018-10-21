@@ -1,34 +1,131 @@
-<form action="#" id="newRoom" method="post">
-    <input type="hidden" value="" name="">
-    <fieldset>
-        <legend>New Room</legend>
-        <!-- TITLE -->
-        <div class="form-group">
-            <label for="room-name">Name</label><br>
-            <input class="form-control"
-                   id="room-name"
-                   type="text"
-                   name="name"
-                   placeholder="Ex: Freshmen, Period 5"/>
+<div class="container">
+    <h3 align="center">Create a New Classroom</h3>
+    <br />
+    <form method="post" id="create-room-form" action="/rooms">
+        <label for="room-name">Classroom Name</label><br>
+        <input class="form-control"
+               id="room-name"
+               type="text"
+               name="name"
+               placeholder="Ex: Freshmen, Period 5 (Boys)"/>
+        <br />
+        <h4 align="center">Enter Students</h4>
+        <br />
+        <div class="table-repsonsive">
+            <span id="students-error"></span>
+            <table class="table table-bordered" id="students_table">
+                <tr>
+                    <th>Student Email</th>
+                    <th>Parent Email</th>
+                    <th>Parent Email (Optional)</th>
+                    <th><button type="button" name="add-student" class="btn btn-success btn-sm add-student"><span class="glyphicon glyphicon-plus"></span></button></th>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="first.last@school.org" name="student_email[]" class="form-control student_email" /></td>
+                    <td><input type="text" placeholder="first.last@example.com" name="student_parent1_email[]" class="form-control student_parent1_email" /></td>
+                    <td><input type="text" placeholder="first.last@example.com" name="student_parent2_email[]" class="form-control student_parent2_email" /></td>
+                    <td><button type="button" name="remove-student" class="btn btn-danger btn-sm remove-student"><span class="glyphicon glyphicon-minus"></span></button></td>
+                </tr>
+                </tr>
+            </table>
         </div>
-
-        {{#each resources}}
-            {{name}}
-        {{/each}}
-
-        <!-- DESCRIPTION -->
-        <div class="form-group">
-            <label for="student-emails">Emails</label><br>
-            <textarea class="form-control"
-                      id="student-emails"
-                      name="content"
-                      rows="10"
-                      placeholder="student1@example.com, student2@example.com"/></textarea>
+        <br />
+        <h4 align="center">Setup Curriculum</h4>
+        <br />
+        <label for="room-standard">Required Curriculum</label>
+        <select class="form-control" id="room-standard" name="standard">
+            {{#each standards}}
+                <option value="{{{this}}}">{{this}}</option>
+            {{/each}}
+        </select>
+        <br/>
+        <div class="table-responsive">
+            <table class="table table-bordered" id="resources_table">
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Tags
+                    </th>
+                    <th>
+                        Selected
+                    </th>
+                </tr>
+                {{#each resources}}
+                    <tr>
+                        <td>
+                            {{name}}
+                        </td>
+                        <td>
+                            {{#each tags}}
+                                <span class="badge {{#startsWith "state-" this}}badge-primary{{/startsWith}} {{#startsWith "gender-male" this}}badge-info{{/startsWith}} {{#startsWith "gender-female" this}}badge-danger{{/startsWith}} {{#startsWith "grade-" this}}badge-warning{{/startsWith}} {{#startsWith "topic-" this}}badge-success{{/startsWith}}">{{this}}</span>
+                            {{else}}
+                                No Tags
+                            {{/each}}
+                        </td>
+                        <td>
+                            <input class="form-check-input" type="checkbox" name="resource-check-{{{id}}}" value="{{{id}}}" id="resource-check-{{{id}}}">
+                            <label class="form-check-label" for="resource-check-{{{id}}}"></label>
+                        </td>
+                    </tr>
+                {{/each}}
+            </table>
         </div>
-    </fieldset>
+        <p>
+            Note: Parents will receive an invitation immediately to view and opt-out of sections. You will be able to open the classroom to students when you begin the course.
+        </p>
+        <br />
+        <div align="center">
+            <input type="submit" name="submit" class="btn btn-primary" value="Create Classroom" />
+        </div>
+    </form>
+</div>
 
-    <!-- BUTTON -->
-    <div class="form-group">
-        <button class="btn btn-primary" type="submit">Save Comment</button>
-    </div>
-</form>
+<script>
+    $(function(){
+
+        $(document).on('click', '.add-student', function(){
+            var html = '';
+            html += '<tr>';
+            html += '<td><input type="text" placeholder="first.last@school.org" name="student_email[]" class="form-control student_email" /></td>';
+            html += '<td><input type="text" placeholder="first.last@example.com" name="student_parent1_email[]" class="form-control student_parent1_email" /></td>';
+            html += '<td><input type="text" placeholder="first.last@example.com" name="student_parent2_email[]" class="form-control student_parent2_email" /></td>';
+            html += '<td><button type="button" name="remove-student" class="btn btn-danger btn-sm remove-student"><span class="glyphicon glyphicon-minus"></span></button></td></tr>';
+            $('#students_table').append(html);
+        });
+
+        $(document).on('click', '.remove-student', function(){
+            $(this).closest('tr').remove();
+        });
+
+        $('#create-room-form').on('submit', function(event) {
+            var studentsError = '';
+            $('.student_email').each(function() {
+                var count = 1;
+                if($(this).val() === '')  {
+                    studentsError += "<p>Missing Student Email at "+count+" Row</p>";
+                    return false;
+                }
+                count = count + 1;
+            });
+
+            $('.student_parent1_email').each(function() {
+                var count = 1;
+                if($(this).val() === '')  {
+                    studentsError += "<p>Missing required parent email at "+count+" Row</p>";
+                    return false;
+                }
+                count = count + 1;
+            });
+            var form_data = $(this).serialize();
+            if(studentsError !== '') {
+                $('#students-error').html('<div class="alert alert-danger">'+studentsError+'</div>');
+                return false;
+            }
+            return true;
+        });
+
+    });
+</script>
+
