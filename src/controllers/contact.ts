@@ -1,13 +1,5 @@
-import nodemailer from "nodemailer";
+import { Transporter } from "../config/mailer";
 import { Request, Response } from "express";
-
-const transporter = nodemailer.createTransport({
-  service: "SendGrid",
-  auth: {
-    user: process.env.SENDGRID_USER,
-    pass: process.env.SENDGRID_PASSWORD
-  }
-});
 
 /**
  * GET /contact
@@ -42,7 +34,7 @@ export let postContact = (req: Request, res: Response) => {
     text: req.body.message
   };
 
-  transporter.sendMail(mailOptions, (err) => {
+  Transporter.sendMail(mailOptions, (err) => {
     if (err) {
       req.flash("errors", { msg: err.message });
       return res.redirect("/contact");
