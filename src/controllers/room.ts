@@ -3,6 +3,7 @@ import { default as Room, RoomModel } from "../models/Room";
 import { Transporter } from "../config/mailer";
 import { PlatformConfig } from "../config/platform";
 import LearningResource from "../models/LearningResource";
+import User, { UserModel } from "../models/User";
 
 /**
  * POST /contact
@@ -111,9 +112,12 @@ export let getRoom = async (req: Request, res: Response) => {
             }
         })
     }
+
+    let admin = await User.findById(room.admin_id).exec() as UserModel;
+
     return res.render("view-room", {
         title: room.name,
-        role,
+        admin: admin.profile,
         room
     });
 }
