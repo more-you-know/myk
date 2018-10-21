@@ -1,0 +1,34 @@
+<form action="#" id="newRoom" method="post">
+    <input type="hidden" value="" name="">
+    <fieldset>
+        <legend>New Room</legend>
+        <!-- TITLE -->
+        <div class="form-group">
+            <label for="room-name">Name</label><br>
+            <input class="form-control"
+                   id="room-name"
+                   type="text"
+                   name="name"
+                   placeholder="Ex: Freshmen, Period 5"/>
+        </div>
+
+        {{#each resources}}
+            {{name}}
+        {{/each}}
+
+        <!-- DESCRIPTION -->
+        <div class="form-group">
+            <label for="student-emails">Emails</label><br>
+            <textarea class="form-control"
+                      id="student-emails"
+                      name="content"
+                      rows="10"
+                      placeholder="student1@example.com, student2@example.com"/></textarea>
+        </div>
+    </fieldset>
+
+    <!-- BUTTON -->
+    <div class="form-group">
+        <button class="btn btn-primary" type="submit">Save Comment</button>
+    </div>
+</form>

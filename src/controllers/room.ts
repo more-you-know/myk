@@ -159,7 +159,7 @@ export let getRoom = async (req: Request, res: Response) => {
     }
 
     return res.render("view-room", respData);
-}
+};
 
 export let getMyRooms = async (req: Request, res: Response) => {
     let allRooms = await Room.find({}).exec() as RoomModel[];
