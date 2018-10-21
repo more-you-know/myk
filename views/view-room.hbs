@@ -51,7 +51,7 @@ Room name
                         {{#each progress}}
                             <td>
                                 {{#if blocked}}
-                                    <span class="fa fa-circle"></span> Opt-out
+                                    <span class="fa fa-times"></span> Opted-out
                                 {{else}}
                                     {{#if viewed}}
                                         <span class="fa fa-check"></span> Done
@@ -84,10 +84,14 @@ Room name
                             <a href="#!" data-toggle="modal" data-target="#modal-resource-{{{resource.id}}}">{{resource.name}}</a>
                         </td>
                         <td>
-                            {{#if viewed}}
-                                <span class="fa fa-check"></span> Done
+                            {{#if blocked}}
+                                <span class="fa fa-times"></span> Opted-out
                             {{else}}
-                                <span class="fa fa-asterisk"></span> Incomplete
+                                {{#if viewed}}
+                                    <span class="fa fa-check"></span> Done
+                                {{else}}
+                                    <span class="fa fa-asterisk"></span> Incomplete
+                                {{/if}}
                             {{/if}}
                         </td>
                     </tr>
@@ -125,9 +129,12 @@ Room name
                         <h4 class="modal-title">Modal Header</h4>
                     </div>
                     <div class="modal-body">
-                        <iframe style="border: none;" height="500px" width="100" src="{{{resource.url}}}"></iframe>
+                        <iframe style="border: none;width: 100%;" height="500px" width="100%" src="{{{resource.url}}}"></iframe>
                     </div>
                     <div class="modal-footer">
+                        {{#eq ../role "parent"}}
+                            <button id="block-btn-resource-{{{resource.id}}}" type="button" class="btn btn-danger" data-dismiss="modal"><span class="fa fa-times"></span> Block for Student</button>
+                        {{/eq}}
                         <button id="done-btn-resource-{{{resource.id}}}" type="button" class="btn btn-success" data-dismiss="modal"><span class="fa fa-check"></span> Done</button>
                     </div>
                 </div>
@@ -147,8 +154,19 @@ Room name
                                 window.location.reload();
                             {{/eq}}
                         }
-                    })
-                })
+                    });
+                });
+                {{#eq ../role "parent"}}
+                    $("#block-btn-resource-{{{resource.id}}}").click(function(e) {
+                        e.preventDefault();
+                        $.ajax("/rooms/{{{../id}}}/block/{{{resource.id}}}", {
+                            method: "POST",
+                            success: function() {
+                                window.location.reload();
+                            }
+                        })
+                    });
+                {{/eq}}
             });
         </script>
     {{/each}}

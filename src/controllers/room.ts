@@ -163,7 +163,7 @@ export let getRoom = async (req: Request, res: Response) => {
         role = "learner";
     } else {
         Object.keys(room.learners).forEach(learnerEmail => {
-            if (room.learners[learnerEmail].parent_emails.indexOf(req.user.id) > -1) {
+            if (room.learners[learnerEmail].parent_emails.indexOf(base64(req.user.email)) > -1) {
                 role = "parent";
                 kidEmail = learnerEmail;
             }
@@ -267,7 +267,7 @@ export let markContentViewed = async(req: Request, res: Response) => {
         role = "learner";
     } else {
         Object.keys(room.learners).forEach(learnerEmail => {
-            if (room.learners[learnerEmail].parent_emails.indexOf(req.user.id) > -1) {
+            if (room.learners[learnerEmail].parent_emails.indexOf(base64(req.user.email)) > -1) {
                 role = "parent";
             }
         })
@@ -283,15 +283,13 @@ export let markContentViewed = async(req: Request, res: Response) => {
         // @ts-ignore
         room.markModified(`syllabus.${syllabusItemIdx}.learners.${base64(req.user.email)}.viewed`);
         await room.save();
-        console.log(room);
-        console.log(room.syllabus[syllabusItemIdx].learners);
-        console.log("saved");
     }
     return res.status(200).send();
 };
 
 export let blockContent = async(req: Request, res: Response) => {
     let room = await Room.findById(req.params.roomId).exec() as RoomModel;
+    let kidEmailB64 = null;
     let role = "none";
     if (room.admin_id === req.user.id) {
         role = "admin";
@@ -299,15 +297,23 @@ export let blockContent = async(req: Request, res: Response) => {
         role = "learner";
     } else {
         Object.keys(room.learners).forEach(learnerEmail => {
-            if (room.learners[learnerEmail].parent_emails.indexOf(req.user.id) > -1) {
+            if (room.learners[learnerEmail].parent_emails.indexOf(base64(req.user.email)) > -1) {
                 role = "parent";
+                kidEmailB64 = learnerEmail;
             }
         })
     }
 
     if (role !== 'parent') {
-        return res.redirect(`/rooms/${room.id}`)
+        return res.status(200).send();
     }
 
-    // TODO block the content
+    let syllabusItemIdx = room.syllabus.findIndex(item => item.resource_id === req.params.resourceId);
+    if (!room.syllabus[syllabusItemIdx].learners[kidEmailB64].blocked) {
+        room.syllabus[syllabusItemIdx].learners[kidEmailB64].blocked = true;
+        // @ts-ignore
+        room.markModified(`syllabus.${syllabusItemIdx}.learners.${kidEmailB64}.blocked`);
+        await room.save();
+    }
+    return res.status(200).send();
 };

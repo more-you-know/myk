@@ -126,6 +126,7 @@ app.get("/rooms/:roomId", passportConfig.isAuthenticated, roomsController.getRoo
 app.post("/rooms/:roomId/open-for-learners", passportConfig.isAuthenticated, roomsController.inviteStudents);
 app.get("/rooms/:roomId/download-csv", passportConfig.isAuthenticated, roomsController.downloadCSV);
 app.post("/rooms/:roomId/learn/:resourceId", passportConfig.isAuthenticated, roomsController.markContentViewed);
+app.post("/rooms/:roomId/block/:resourceId", passportConfig.isAuthenticated, roomsController.blockContent);
 app.post("/account/profile", passportConfig.isAuthenticated, userController.postUpdateProfile);
 app.post("/account/password", passportConfig.isAuthenticated, userController.postUpdatePassword);
 app.post("/account/delete", passportConfig.isAuthenticated, userController.postDeleteAccount);
