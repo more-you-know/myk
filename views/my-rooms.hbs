@@ -1,0 +1,14 @@
+<div id="myRooms">
+{{#each myRooms}}
+<div class="card">
+{{this.name}}
+{{this.admin_id}}
+    {{#each this.learners}}
+        {{ this.email }}
+    {{/each}}
+
+{{ this.syllabus.resource_id }}
+</div>
+{{/each}}
+</div>
+
